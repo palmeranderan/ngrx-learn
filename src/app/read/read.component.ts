@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Tutorial } from '../../models/tutorial.model';
 import { AppState } from '../../app.state';
+import * as TutorialActions from '../../actions/tutorial.actions';
 
 @Component({
   selector: 'app-read',
@@ -11,9 +12,17 @@ import { AppState } from '../../app.state';
 })
 export class ReadComponent implements OnInit {
 
-  constructor() { }
+  tutorials: Observable<Tutorial[]>;
+
+  constructor(private store: Store<AppState>) {
+    this.tutorials = store.select(state => state.tutorial)
+   }
 
   ngOnInit() {
   }
+
+delTutorial(index) {
+  this.store.dispatch(new TutorialActions.RemoveTutorial(index));
+}
 
 }
